@@ -20,8 +20,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 5567
       POSTGRES_DB: postgres
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -37,25 +35,21 @@ services:
     restart: always
     depends_on:
       db:
-        condition: service_healthy 
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_USER: postgres
       DB_PASSWORD: 5567
       DB_NAME: postgres
-    ports:
-      - "3000:3000"
     networks:
       - my_network
-
+  
   frontend:
     build: ./dockerLab-frontend
     container_name: frontend
     restart: always
     depends_on:
       - backend
-    ports:
-      - "5173:5173"
     networks:
       - my_network
 
@@ -66,7 +60,7 @@ services:
     depends_on:
       - frontend
     ports:
-      - "80:80"
+      - "80:80" 
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
@@ -77,6 +71,7 @@ networks:
 
 volumes:
   postgres_data:
+
 
 
 содержимое nginx.conf
@@ -96,3 +91,4 @@ http {
         }
     }
 }
+
